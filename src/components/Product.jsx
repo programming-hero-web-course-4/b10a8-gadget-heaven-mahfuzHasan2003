@@ -5,9 +5,9 @@ const Product = ({ product }) => {
    return (
       <div className='p-3 bg-white shadow-md flex flex-col gap-3 rounded-md'>
          <img
-            src='https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp'
+            src={image}
             alt={name}
-            className='aspect-[4/3] object-cover rounded-md'
+            className=' object-scale-down rounded-md aspect-[4/3] max-h-52'
          />
          <h3 className='text-xl font-semibold'>{name}</h3>
          <p>

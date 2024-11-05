@@ -3,13 +3,15 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./layout/layout.jsx";
+import Layout from "./layout/Layout.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Home from "./pages/Home.jsx";
 import Statistics from "./pages/Statistics.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import axios from "axios";
+import FAQs from "./pages/FAQs.jsx";
+import { Toaster } from "react-hot-toast";
 
 const routes = createBrowserRouter([
    {
@@ -34,6 +36,11 @@ const routes = createBrowserRouter([
             element: <ProductDetails />,
             loader: () => axios.get("/products_data.json"),
          },
+         {
+            path: "/FAQs",
+            element: <FAQs />,
+            loader: () => axios.get("/FAQs.json"),
+         },
       ],
    },
 ]);
@@ -41,5 +48,6 @@ const routes = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
    <StrictMode>
       <RouterProvider router={routes} />
+      <Toaster />
    </StrictMode>
 );

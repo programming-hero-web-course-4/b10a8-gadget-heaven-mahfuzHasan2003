@@ -2,7 +2,14 @@ import { FaRegHeart } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { useLoaderData, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
-import { addProductsToLS } from "../database/handleLocalStorage";
+import {
+   handleProductsOfLS,
+   getProductsDataFromLS,
+   preloadTotalCartPrice,
+} from "../database/handleLocalStorage";
+import { useContext, useState } from "react";
+import { DataContext } from "../context/DataContext";
+import { Helmet } from "react-helmet";
 
 const ProductDetails = () => {
    const { id } = useParams();
@@ -10,9 +17,21 @@ const ProductDetails = () => {
    const userTargetedProduct = data.find((d) => d.id === parseInt(id));
    const { name, image, price, stock, description, specifications, rating } =
       userTargetedProduct;
+   const {
+      setCartLength,
+      setWishlistLength,
+      setTotalCartPrice,
+      setCartProducts,
+      setWishlistProducts,
+   } = useContext(DataContext);
+
+   const [btnDisable, setBtnDisable] = useState(false);
 
    return (
       <section className='bg-gray-100'>
+         <Helmet>
+            <title>GadgetHeaven - Product Details</title>
+         </Helmet>
          <div className='bg-primary-blue text-white text-center pt-10 pb-44 md:pb-52 space-y-3'>
             <h2 className='text-3xl font-bold'>Product Details</h2>
             <p className='max-w-2xl mx-auto'>
@@ -24,7 +43,7 @@ const ProductDetails = () => {
          <div className='w-11/12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10  p-10 bg-white rounded-md relative -top-36'>
             <div>
                <img
-                  src='https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp'
+                  src={image}
                   alt={name}
                   className='rounded-md object-cover w-full h-full'
                />
@@ -66,15 +85,40 @@ const ProductDetails = () => {
                <div className='flex gap-5 items-center pt-4'>
                   <button
                      className='flex gap-3 items-center px-5 py-2 bg-primary-blue text-white rounded-full font-bold'
-                     onClick={() =>
-                        addProductsToLS("add", "cart", userTargetedProduct)
-                     }>
+                     onClick={() => {
+                        {
+                           handleProductsOfLS(
+                              "add",
+                              "cart",
+                              userTargetedProduct
+                           );
+                           setCartLength(getProductsDataFromLS("cart").length);
+                           setTotalCartPrice(preloadTotalCartPrice());
+                           setCartProducts(getProductsDataFromLS("cart"));
+                        }
+                     }}>
                      Add To Cart <IoCartOutline size={25} />
                   </button>
                   <button
-                     className='border p-2 rounded-full'
+                     className={`border p-2 rounded-full ${
+                        btnDisable ? "bg-gray-300 text-gray-400" : ""
+                     }`}
+                     disabled={btnDisable}
                      onClick={() => {
-                        addProductsToLS("add", "wishlist", userTargetedProduct);
+                        {
+                           handleProductsOfLS(
+                              "add",
+                              "wishlist",
+                              userTargetedProduct
+                           );
+                           setWishlistLength(
+                              getProductsDataFromLS("wishlist").length
+                           );
+                           setWishlistProducts(
+                              getProductsDataFromLS("wishlist")
+                           );
+                           setBtnDisable(true);
+                        }
                      }}>
                      <FaRegHeart size={25} />
                   </button>

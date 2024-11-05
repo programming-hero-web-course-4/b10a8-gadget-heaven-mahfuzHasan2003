@@ -13,7 +13,7 @@ const Footer = () => {
 
             <hr />
 
-            <div className='flex gap-10 md:gap-20 md:justify-center flex-wrap'>
+            <div className='flex  gap-14 md:gap-20 lg:gap-60 md:justify-center flex-wrap'>
                <div className='flex flex-col gap-2'>
                   <h6 className='text-lg font-bold mb-2'>Services</h6>
                   <Link to='#' className='hover:underline'>
