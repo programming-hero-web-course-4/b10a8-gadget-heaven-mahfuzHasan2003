@@ -1,4 +1,4 @@
-# Gadget Heaven | A gadget-buying website.
+# Gadget Heaven | A gadget-buying website!!
 
 Explore to buy the best gadget from Gadget Heaven. Add to cart or add to wishlist to buy next. User friendly dashboard added and filter by category.
 
